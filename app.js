@@ -7,79 +7,88 @@ let numero = numeroAleatorio();
 textoInicial();
 let i = 5;
 
-console.log (numero);
+console.log(numero);
 
-function habilitaBotao(){
+function habilitaBotao() {
     document.getElementById('chutar').setAttribute('disabled', "");
     document.getElementById('reiniciar').removeAttribute('disabled');
 }
-function verificarChute() {  
+function verificarChute() {
     let chute = Number(document.querySelector('input').value);
     let text = document.querySelector('h1')
     let vida = document.querySelector('p')
-        if(chute == numero){
-            text.innerHTML = 'Voce ganhou!';
-            vida.innerHTML = 'Parabens!';
-            habilitaBotao();
-            //break;
+    if (isNaN(chute) || chute < 1 || chute > max) {
+        alert('Digite um número válido entre 1 e ' + max);
+        return;
+    }
+    if (chute == numero) {
+        text.innerHTML = 'Voce ganhou!';
+        vida.innerHTML = 'Parabens!';
+        habilitaBotao();
+        
+    }
+    else {
+        if (chute > numero) {
+            text.innerHTML = 'o numero secreto e menor que o chutado!';
+            i--;
+            vida.innerHTML = ("vidas: " + i);
+
+            //alert(`vidas restantes ${i}`);
         }
-        else{
-            if(chute > numero){
-                text.innerHTML = 'o numero secreto e menor que o chutado!';
+        else {
+            if (chute < numero) {
+                text.innerHTML = 'o numero secreto e maior que o chutado!';
                 i--;
                 vida.innerHTML = ("vidas: " + i);
-                
-                //alert(`vidas restantes ${i}`);
+                //alert("vidas restantes " + i);
             }
-            else{
-                if(chute < numero){
-                    text.innerHTML = 'o numero secreto e maior que o chutado!';
-                    i--;
-                    vida.innerHTML = ("vidas: " + i);
-                    //alert("vidas restantes " + i);
-                } 
-                
-            }
+
         }
-       
-   if (i == 0){
-       let morreu = document.querySelector('h1')
-           morreu.innerHTML = 'GAMER OVER'+ '\n' +'o numero era ' + numero;
-            habilitaBotao();
-   }
-   limparCampo();
+    }
+
+    if (i == 0) {
+        let morreu = document.querySelector('h1');
+        morreu.innerHTML = ('GAMER OVER' + '\n' + 'o numero era ' + numero);
+        habilitaBotao();
+    }
+    limparCampo();
 }
-function numeroAleatorio(){
-    
-    let numeroEscolhido = Math.floor(Math.random() *max) +1;
-    if (listaDeNumerosSorteados.length == max-1){
+function numeroAleatorio() {
+
+    let numeroEscolhido = Math.floor(Math.random() * max) + 1;
+    if (listaDeNumerosSorteados.length == max - 1) {
         listaDeNumerosSorteados.splice(0, listaDeNumerosSorteados.length);
     }
-    if(listaDeNumerosSorteados.includes(numeroEscolhido)){
-        return numeroAleatorio ();
-    }else {
+    if (listaDeNumerosSorteados.includes(numeroEscolhido)) {
+        return numeroAleatorio();
+    } else {
         listaDeNumerosSorteados.push(numeroEscolhido);
         console.log(listaDeNumerosSorteados);
         return numeroEscolhido;
     }
-    
+
 }
 
-function limparCampo(){
+function limparCampo() {
     chute = document.querySelector('input');
     chute.value = '';
 }
 
-function textoInicial(){
+function textoInicial() {
     titulo.innerHTML = 'Jogo do numero Secreto';
     paragrafo.innerHTML = ('Escolha um numero entre 1 e ' + max);
 }
 
-function reiniciarJogo(){
+function reiniciarJogo() {
     numero = numeroAleatorio();
     limparCampo();
     i = 5;
     textoInicial();
-    document.getElementById('reiniciar').setAttribute ('disabled',true);
+    document.getElementById('reiniciar').setAttribute('disabled', true);
     document.getElementById('chutar').removeAttribute('disabled');
 }
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        verificarChute();
+    }
+});
