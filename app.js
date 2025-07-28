@@ -9,6 +9,10 @@ let i = 5;
 
 console.log (numero);
 
+function habilitaBotao(){
+    document.getElementById('chutar').setAttribute('disabled', "");
+    document.getElementById('reiniciar').removeAttribute('disabled');
+}
 function verificarChute() {  
     let chute = Number(document.querySelector('input').value);
     let text = document.querySelector('h1')
@@ -16,8 +20,7 @@ function verificarChute() {
         if(chute == numero){
             text.innerHTML = 'Voce ganhou!';
             vida.innerHTML = 'Parabens!';
-            document.getElementById('chutar').setAttribute('disabled', "");
-            document.getElementById('reiniciar').removeAttribute('disabled');
+            habilitaBotao();
             //break;
         }
         else{
@@ -42,6 +45,7 @@ function verificarChute() {
    if (i == 0){
        let morreu = document.querySelector('h1')
            morreu.innerHTML = 'GAMER OVER'+ '\n' +'o numero era ' + numero;
+            habilitaBotao();
    }
    limparCampo();
 }
